@@ -11,3 +11,5 @@ from pycocotools.cocoeval import COCOeval
 # gsutil -m rsync gs://images.cocodataset.org/annotations annotations : error!!
 # wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
 
+
+

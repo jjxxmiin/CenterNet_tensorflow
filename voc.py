@@ -6,11 +6,6 @@ import xml.etree.ElementTree as Et
 import matplotlib.pyplot as plt
 import time
 
-LABELS = ['__background__', "aeroplane", "bicycle", "bird", "boat",
-          "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog",
-          "horse", "motorbike", "person", "pottedplant", "sheep", "sofa",
-          "train", "tvmonitor"]
-
 def int64_feature(values):
     if not isinstance(values, (tuple, list)):
         values = [values]
@@ -29,7 +24,7 @@ def float_feature(values):
     return tf.train.Feature(bytes_list=tf.train.FloatList(value=values))
 
 
-def PascalVOC(path):
+def PascalVOC(path,labels):
     dataset_dir = path
     result = []
     #writer = tf.python_io.TFRecordWriter('./pascal_voc.tfrecord')
@@ -73,7 +68,7 @@ def PascalVOC(path):
         objects = root.findall("object")
 
         for object in objects:
-            name = LABELS.index(object.find("name").text)
+            name = labels.index(object.find("name").text)
             bndbox = object.find("bndbox")
             xmin = float(bndbox.find("xmin").text)
             ymin = float(bndbox.find("ymin").text)
@@ -97,13 +92,13 @@ def PascalVOC(path):
 
         return result
 
-
+'''
 result = PascalVOC('G:\\dataset\\VOC2007')
 print(result[0].keys())
 print(result[0]['shape'])
 
 
-'''
+
         # =========== TFRecord ===========
 
         features = {
@@ -123,18 +118,35 @@ print(result[0]['shape'])
 
 filenames="./pascal_voc.tfrecord",
 
-features={
+def decode(serialized_example):
+    features = tf.parse_single_example(
+        serialized_example,
+        features={
             'image': tf.FixedLenFeature([], tf.string),
             'shape': tf.FixedLenFeature([], tf.string),
-            'ground_truth': tf.FixedLenFeature([], tf.string)
-}
+            'gt': tf.FixedLenFeature([], tf.string),
+        })
+    image = tf.decode_raw(features['image'], tf.float32)
+    image = tf.reshape(tensor=image, shape=[28, 28, 1])
+    shape = tf.decode_raw(features['shape'], tf.uint8)
+    gt = tf.decode_raw(features['gt'], tf.uint8)
 
-filenames_queue = tf.train.string_input_producer([filenames],num_epochs=1)
+    # image = tf.cast(image, tf.int32)
+    # image = tf.reshape(image, shape)
+    return image, shape, gt
 
-reader = tf.TFRecordReader()
-key,serialized_example = reader.read(filenames_queue)
 
-features = tf.parse_single_example(serialized_example, features=features)
+train_dataset = tf.data.TFRecordDataset(filenames)
+train_dataset = train_dataset.map(decode)
+train_dataset = train_dataset.repeat()
+train_dataset = train_dataset.batch(batch_size = 2)
 
-print(np.shape(features['shape']))
+val_iterator = train_dataset.make_initializable_iterator()
+x, y,z = val_iterator.get_next()
+
+with tf.Session() as sess:
+    sess.run(val_iterator.initializer)
+    X_data = sess.run(x)
+
+print(X_data.shape)
 '''
