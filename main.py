@@ -37,11 +37,13 @@ def opts():
 
 
 def main():
-    input_size = 512
-    output_size = 128
-    batch_size = 128
-    lr = 5e-4
-    epoch = 140
+    parameter = {
+        'input_size' : 512,
+        'output_size' : 128,
+        'batch_size' : 128,
+        'lr' : 5e-4,
+        'epoch' : 140
+    }
 
     args = opts()
 
