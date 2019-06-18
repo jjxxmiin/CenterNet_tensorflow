@@ -1,6 +1,8 @@
-#import tensorflow as tf
-#import numpy as np
+import tensorflow as tf
+import numpy as np
 import argparse
+import voc
+import centernet
 
 PASCAL_LABELS = [
       '__background__', "aeroplane", "bicycle", "bird", "boat",
@@ -37,7 +39,7 @@ def opts():
 
 
 def main():
-    parameter = {
+    p = {
         'input_size' : 512,
         'output_size' : 128,
         'batch_size' : 128,
@@ -45,7 +47,24 @@ def main():
         'epoch' : 140
     }
 
-    args = opts()
+    #args = opts()
+    #datasets = voc.PascalVOC('G:\dataset\VOC2007', PASCAL_LABELS)
+
+    #print('image : ',datasets[0]['image'])
+    #print('gt : ',datasets[0]['ground_truth'])
+    #print('shape : ',datasets[0]['shape'])
+
+    model = centernet.ResNet18()
+
+    X = tf.placeholder(tf.float32,[p['batch_size'],p[''],p[''],p['']])
+    Y = tf.placeholder()
+
+    with tf.Session() as sess:
+        sess.init()
+
+
+
+
 
 if __name__ == "__main__":
     main()

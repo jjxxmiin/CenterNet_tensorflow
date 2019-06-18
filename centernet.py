@@ -91,12 +91,3 @@ class ResNet18():
 
         return layer5
 
-a = ResNet18()
-
-test = tf.Variable(tf.truncated_normal([10,448,448,3], stddev=0.02))
-k = a.Architecture(test)
-print(k)
-#class DLA34():
-#class Hourglass104():
-
-

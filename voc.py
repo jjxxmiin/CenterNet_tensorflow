@@ -15,11 +15,13 @@ def PascalVOC(path,labels):
     xml_dir = os.path.join(dataset_dir,'Annotations')
     img_dir = os.path.join(dataset_dir,'JPEGImages')
 
+    print('PascalVOC XML list parsing start')
     xml_path_list = [os.path.join(xml_dir,xml_name) for xml_name in os.listdir(xml_dir)]
+    print('PascalVOC XML list parsing end')
 
     start = time.time()
 
-    print('PascalVOC XML parsing start')
+    print('PascalVOC XML data parsing start')
 
     for xml_path in xml_path_list:
         ground_truth = []
@@ -75,4 +77,3 @@ def PascalVOC(path,labels):
     print('PascalVOC XML parsing end\nPascalVOC XML  parsing time : ',end-start)
 
     return result
-

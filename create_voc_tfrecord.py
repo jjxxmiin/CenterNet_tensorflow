@@ -241,6 +241,7 @@ def read_and_decode(filename_queue):
     image = tf.decode_raw(features['image/encoded'],tf.float32)
 
     return image
+
 with tf.Session() as sess:
     filename_queue = tf.train.string_input_producer(['./voc_record/voc_000.tfrecord'])
     image = read_and_decode(filename_queue)

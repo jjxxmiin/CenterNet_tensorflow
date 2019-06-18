@@ -9,7 +9,7 @@ from pycocotools.cocoeval import COCOeval
 # gsutil -m rsync gs://images.cocodataset.org/test2017 test2017
 # gsutil -m rsync gs://images.cocodataset.org/val2017 val2017
 # gsutil -m rsync gs://images.cocodataset.org/annotations annotations : error!!
-# wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+# wget -c http://images.cocodataset.org/annotations/annotations_trainval2017.zip
 
 
 
