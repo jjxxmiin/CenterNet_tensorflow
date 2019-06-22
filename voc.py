@@ -6,7 +6,10 @@ import xml.etree.ElementTree as Et
 import matplotlib.pyplot as plt
 import time
 
-
+'''
+tuple : {img, shape, label}
+list : [tuple, tuple ...]
+'''
 
 def PascalVOC(path,labels):
     dataset_dir = path

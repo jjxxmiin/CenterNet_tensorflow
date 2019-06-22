@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import argparse
 import voc
-import centernet
+import model
 
 PASCAL_LABELS = [
       '__background__', "aeroplane", "bicycle", "bird", "boat",
@@ -30,8 +30,10 @@ COCO_LABELS = [
 def opts():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--data_dir',
+    parser.add_argument('--data_path',
                         help="dataset directory please")
+    parser.add_argument('--data',
+                        help="'coco' and 'voc'")
 
     args = parser.parse_args()
 
@@ -39,12 +41,18 @@ def opts():
 
 
 def main():
-    p = {
+    config = {
+        'mode' : 'train',
+        'data_format' : 'channels_last',
         'input_size' : 512,
         'output_size' : 128,
         'batch_size' : 128,
         'lr' : 5e-4,
-        'epoch' : 140
+        'epoch' : 140,
+        'weight_decay': 1e-4,
+        'keep_prob': 0.5,
+        'num_classes' : 20,
+        'score_threshold': 0.1,
     }
 
     #args = opts()
@@ -54,16 +62,7 @@ def main():
     #print('gt : ',datasets[0]['ground_truth'])
     #print('shape : ',datasets[0]['shape'])
 
-    model = centernet.ResNet18()
-
-    X = tf.placeholder(tf.float32,[p['batch_size'],p[''],p[''],p['']])
-    Y = tf.placeholder()
-
-    with tf.Session() as sess:
-        sess.init()
-
-
-
+    m = model.CenterNet(config)
 
 
 if __name__ == "__main__":
