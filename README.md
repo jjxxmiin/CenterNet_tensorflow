@@ -10,7 +10,11 @@ centernet 구현 부분은 [이 곳](https://github.com/Stick-To/CenterNet-tenso
 - ResNet18
 - HourglassNet
 
-# Loss
+# Loss : L1 Loss
+- Offset
+- Keypoint
+- Size
+
 
 # reference
 - [https://github.com/xingyizhou/CenterNet](https://github.com/xingyizhou/CenterNet)
