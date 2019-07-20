@@ -56,13 +56,13 @@ def main():
     }
 
     #args = opts()
-    #datasets = voc.PascalVOC('G:\dataset\VOC2007', PASCAL_LABELS)
+    datasets = voc.PascalVOC('G:\dataset\VOC2007', PASCAL_LABELS)
 
-    #print('image : ',datasets[0]['image'])
-    #print('gt : ',datasets[0]['ground_truth'])
-    #print('shape : ',datasets[0]['shape'])
+    print('image : ',datasets[0]['image'])
+    print('gt : ',datasets[0]['ground_truth'])
+    print('shape : ',datasets[0]['shape'])
 
-    m = model.CenterNet(config)
+    #m = model.CenterNet(config)
 
 
 if __name__ == "__main__":

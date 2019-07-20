@@ -158,6 +158,7 @@ class CenterNet:
 
     def _build_graph(self):
         with tf.variable_scope('backone'):
+            # Huglass
             conv = self._conv_bn_activation(
                 bottom=self.images,
                 filters=16,
@@ -196,6 +197,7 @@ class CenterNet:
             residual = self._avg_pooling(residual, 2, 2)
             dla_stage6 = self._max_pooling(dla_stage6, 2, 2)
             dla_stage6 = dla_stage6 + residual
+
         with tf.variable_scope('upsampling'):
             dla_stage6 = self._conv_bn_activation(dla_stage6, 256, 1, 1)
             dla_stage6_5 = self._dconv_bn_activation(dla_stage6, 256, 4, 2)
@@ -228,6 +230,7 @@ class CenterNet:
             h = tf.range(0., tf.cast(pshape[0], tf.float32), dtype=tf.float32)
             w = tf.range(0., tf.cast(pshape[1], tf.float32), dtype=tf.float32)
             [meshgrid_x, meshgrid_y] = tf.meshgrid(w, h)
+
             if self.mode == 'train':
                 total_loss = []
                 for i in range(self.batch_size):
@@ -242,6 +245,7 @@ class CenterNet:
                 update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
                 train_op = optimizer.minimize(self.loss, global_step=self.global_step)
                 self.train_op = tf.group([update_ops, train_op])
+
             else:
                 keypoints = tf.sigmoid(keypoints)
                 meshgrid_y = tf.expand_dims(meshgrid_y, axis=-1)
